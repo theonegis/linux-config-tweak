@@ -7,6 +7,11 @@
 但是我使用的系统希望整体设计是和谐美观的，简单优雅，能高效工作就行。
 
 ## 常用配置
+文件管理器使用Strata，终端使用Kitty，编辑器常用Vim和VS Code
+
+Office软件使用GenOffice，IDE有了AI之后使用的也不是很多了
+
+输入法在GNOME使用IBus+Rime，在Umbriel使用Fcitx5+Rime，系统字体喜欢苹方和OPPO Sans
 
 - Umbriel桌面默认配置文件的修改
 - Kitty终端的简单配置
@@ -16,4 +21,5 @@
 ## 键盘映射
 
 使用`input-remapper`把不常用的Caps按键映射为macOS的行为（因为我的主力电脑是macOS，这样可以保持行为的一致性）
+
 使用`input-remapper`把不常用的Caps按键映射为鼠标左键，这样按住Caps就可以做选中，拖动了，比默认的双击拖动好用一些（目前没有在这样使用）
