@@ -17,6 +17,7 @@ Office软件使用GenOffice，IDE有了AI之后使用的也不是很多了
 - Kitty终端的简单配置
 - Vim编辑器的简单配置
 - 系统字体配置文件
+- Umbriel下对Fcitx5 SVG主题支持在某些APP下有问题，所以我自制了一个位图版本的`fcitx5-theme`仿微信输入法主题
 
 ## 键盘映射
 
