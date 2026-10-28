@@ -114,7 +114,7 @@ QT_STYLE_OVERRIDE = "kvantum"
 # [output.DP-1.layout.scrolling]
 # default_extent_fraction = 0.4
 [output.eDP-1]
-scale = 1.5
+scale = 2
 
 # ────────────────────────────── Workspaces ──────────────────────────────────
 # Choose global workspace behavior. Each output uses dynamic workspaces unless
@@ -170,11 +170,9 @@ empty_above = false                             # Keep one empty workspace above
 # shadow = "#0000007F"                          # Window shadow
 
 [colors.border]
-# focused = "#7AA3FFFF"                         # Focused window border
-# unfocused = "#292933FF"                       # Unfocused window border
-# scratchpad_focused = "#E5C07BFF"              # Focused scratchpad border
-# scratchpad_unfocused = "#5C4A2AFF"            # Unfocused scratchpad border
-# outer = "#1A1A1FFF"                           # Outer border ring
+focused = "#7AA3FFFF"                         # Focused window border
+unfocused = "#292933FF"                       # Unfocused window border
+outer = "#1A1A1FFF"                           # Outer border ring
 
 [colors.overview]
 # background_tint = "#10101430"                 # Tint over the desktop background
@@ -352,7 +350,9 @@ follows_mouse = false                           # Focus on motion after scene ch
 "Mod+M" = "window-toggle-maximize"
 
 "Mod+Alt+Left" = "column-move-left"
-"Mod+Alt+right" = "column-move-right"
+"Mod+Alt+Right" = "column-move-right"
+"Mod+Alt+Up" = "window-move-up"
+"Mod+Alt+Down" = "window-move-down"
 "Mod+Alt+C" = "column-center"
 "Mod+Equal" = "window-modify-width-right:0.1"
 "Mod+Minus" = "window-modify-width-right:-0.1"
@@ -376,10 +376,15 @@ follows_mouse = false                           # Focus on motion after scene ch
 "Mod+J" = "window-focus-down"
 "Mod+K" = "window-focus-up"
 "Mod+L" = "window-focus-right"
-"Mod+Shift+Left" = "column-move-left"
-"Mod+Shift+Down" = "window-move-down"
-"Mod+Shift+Up" = "window-move-up"
-"Mod+Shift+Right" = "column-move-right"
+# Monitors: focus output / move window across outputs
+"Mod+Shift+Left" = "output-focus-left"
+"Mod+Shift+Right" = "output-focus-right"
+"Mod+Shift+Up" = "output-focus-up"
+"Mod+Shift+Down" = "output-focus-down"
+"Mod+Ctrl+Left" = "window-move-to-output-left"
+"Mod+Ctrl+Right" = "window-move-to-output-right"
+"Mod+Ctrl+Up" = "window-move-to-output-up"
+"Mod+Ctrl+Down" = "window-move-to-output-down"
 "Mod+F" = "window-toggle-fullscreen"             # Exit restores the previous layout size immediately
 "Mod+Ctrl+F" = "window-toggle-maximize"
 "Mod+R" = "window-cycle-primary-extent"
@@ -408,6 +413,14 @@ follows_mouse = false                           # Focus on motion after scene ch
 "Mod+Shift+7" = "window-move-to-workspace:7"
 "Mod+Shift+8" = "window-move-to-workspace:8"
 "Mod+Shift+9" = "window-move-to-workspace:9"
+# Alt+1..5 move the focused window to a workspace
+"Alt+1" = "window-move-to-workspace:1"
+"Alt+2" = "window-move-to-workspace:2"
+"Alt+3" = "window-move-to-workspace:3"
+"Alt+4" = "window-move-to-workspace:4"
+"Alt+5" = "window-move-to-workspace:5"
+# Ctrl+Tab cycles workspaces on the focused output
+"Ctrl+Tab" = "workspace-next"
 # Quote an all-digit name to distinguish it from a position.
 # "Mod+Ctrl+2" = 'workspace-switch:"2"/DP-2'
 
@@ -442,16 +455,16 @@ follows_mouse = false                           # Focus on motion after scene ch
 
 # Optional navigation and sizing recipes. These chords do not replace active
 # bindings above when uncommented.
-# "Mod+Page_Up" = "workspace-previous"
-# "Mod+Page_Down" = "workspace-next"
-# "Mod+Shift+Page_Up" = "window-move-to-workspace-previous"
-# "Mod+Shift+Page_Down" = "window-move-to-workspace-next"
+"Mod+Page_Up" = "workspace-previous"
+"Mod+Page_Down" = "workspace-next"
+"Mod+Shift+Page_Up" = "window-move-to-workspace-previous"
+"Mod+Shift+Page_Down" = "window-move-to-workspace-next"
 # "Mod+Home" = "column-focus-first"
 # "Mod+End" = "column-focus-last"
 # "Mod+Shift+Home" = "column-move-to-first"
 # "Mod+Shift+End" = "column-move-to-last"
-# "Mod+Bracketright" = "window-focus-next"
-# "Mod+Bracketleft" = "window-focus-previous"
+"Mod+Bracketright" = "window-focus-next"
+"Mod+Bracketleft" = "window-focus-previous"
 # "Mod+Shift+Bracketright" = "window-swap-next"
 # "Mod+Shift+Bracketleft" = "window-swap-previous"
 # "Mod+Minus" = "window-modify-primary-extent:-0.1"
@@ -466,7 +479,7 @@ follows_mouse = false                           # Focus on motion after scene ch
 # "Mod+Alt+Shift+R" = "window-cycle-secondary-extent-back"
 # "Mod+Grave" = "window-focus-last"
 # "Mod+BackSpace" = "window-consume-or-expel-left"
-# "Mod+C" = "column-center"
+"Mod+C" = "column-center"
 # "Mod+Shift+C" = "window-center"
 # "Mod+Ctrl+T" = "workspace-set-layout:toggle"
 # "Mod+MouseMiddle" = "layout-scroll-drag"
@@ -554,6 +567,15 @@ new_becomes_master = false                      # New windows take the master sl
 [[window_rule]]
 blur = true
 blur_optimized = false
+
+# WeChat's send dialog contains a transparent client-side shadow margin.
+# Do not blur that margin or outline its full surface.
+[[window_rule]]
+match.app_id = "^wechat$"
+match.title = "^wechat$"
+blur = false
+border_width = 0
+shadow = false
 
 # Noctalia settings
 [[window_rule]]

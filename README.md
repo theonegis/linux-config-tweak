@@ -1,6 +1,6 @@
 # 自用的Linux系统及APP优化美化
 
-我目前使用Fedora系统，同时使用GNOME和Umbriel窗口合成器。Umbriel窗口合成器的登录和桌面主题使用Noctalia。
+我目前使用Fedora系统，默认安装的是GNOME，我自己安装了Umbriel窗口合成器。Umbriel窗口合成器的登录和桌面主题使用Noctalia。
 
 我希望尽可能地减少去折腾Linux，而把它当成生产力工具去使用，所以能用现成的就用现成的。
 
@@ -17,7 +17,8 @@ Office软件使用GenOffice，IDE有了AI之后使用的也不是很多了
 - Kitty终端的简单配置
 - Vim编辑器的简单配置
 - 系统字体配置文件
-- Umbriel下对Fcitx5 SVG主题支持在某些APP下有问题，所以我自制了一个位图版本的`fcitx5-theme`仿微信输入法主题
+- Umbriel下对Fcitx5 SVG主题支持在某些APP下有问题，修改启动环境可以修复
+`Exec=env -u QT_IM_MODULES -u GTK_IM_MODULE QT_QPA_PLATFORM=wayland QT_IM_MODULE=text-input-unstable-v3 /usr/bin/wechat %U`
 
 ## 键盘映射
 
