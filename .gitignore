@@ -1,2 +1,29 @@
+# Packages / installers
 *.deb
 *.rpm
+*.pkg.tar*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+
+# Editor / OS junk
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Backups and local overlays
+*.bak
+*.bak.*
+libreoffice/notebookbar-italic-bak/
+
+# Secrets / local-only
+.env
+*.pem
+*.key

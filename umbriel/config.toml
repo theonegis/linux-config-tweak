@@ -578,14 +578,14 @@ new_becomes_master = false                      # New windows take the master sl
 match.is_floating = true
 blur = false
 border_width = 1
-corner_radius = 12
+corner_radius = 16
 shadow = false
 
 [[window_rule]]
 match.is_dialog = true
 blur = false
 border_width = 1
-corner_radius = 12
+corner_radius = 16
 shadow = false
 
 [[window_rule]]
@@ -598,7 +598,7 @@ shadow = false
 # window covers the screen, which reads as no blur.
 [[window_rule]]
 match.app_id = "^firefox$"
-opacity = 0.8
+opacity = 0.9
 blur = true
 
 [[window_rule]]
@@ -608,17 +608,17 @@ blur = true
 
 [[window_rule]]
 match.app_id = "^[Cc]hatGPT$"
-opacity = 0.8
+opacity = 0.9
 blur = true
 
 [[window_rule]]
 match.app_id = "^[Cc]ursor$"
-opacity = 0.8
+opacity = 0.9
 blur = true
 
 [[window_rule]]
 match.app_id = "^wechat$"
-opacity = 0.8
+opacity = 0.9
 blur = true
 
 # Kitty 自己只淡化背景。这里再设 opacity 会把文字一起变淡。
