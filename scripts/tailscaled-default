@@ -1,0 +1,13 @@
+# Set the port to listen on for incoming VPN packets.
+PORT="41641"
+
+# Extra flags you might want to pass to tailscaled.
+FLAGS=""
+
+# FlClash stays in TUN mode. These proxies are ONLY for tailscaled's
+# control-plane HTTPS (login/register). Without them, Tailscale bypasses
+# TUN with a fwmark and your network cannot DIRECT to controlplane.tailscale.com.
+HTTP_PROXY="http://127.0.0.1:7890"
+HTTPS_PROXY="http://127.0.0.1:7890"
+ALL_PROXY="socks5://127.0.0.1:7890"
+NO_PROXY="127.0.0.1,localhost,::1"

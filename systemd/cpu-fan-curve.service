@@ -1,0 +1,15 @@
+[Unit]
+Description=CPU fan curve (off at 75C, exponential to full at 95C)
+After=sysinit.target
+Before=shutdown.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /usr/local/sbin/cpu-fan-curve.py
+ExecStop=/usr/bin/python3 /usr/local/sbin/cpu-fan-curve.py --full
+Restart=always
+RestartSec=1
+TimeoutStopSec=5
+
+[Install]
+WantedBy=multi-user.target

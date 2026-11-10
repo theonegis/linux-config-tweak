@@ -1,4 +1,4 @@
-# Umbriel example configuration
+# Umbriel example configurati:on
 
 # Distribution packages normally install this file as
 # /usr/share/umbriel/config.toml. Copy it to ~/.config/umbriel/config.toml
@@ -23,7 +23,7 @@
 # ────────────────────────────────────────────────────────────────────────────
 
 [include]
-files = []                                      # Example: ["appearance.toml", "outputs.toml"]
+files = ["shaders/community/border/spectrum/effect.toml"]
 
 [include.optional]
 files = []                                      # Example: ["~/.config/umbriel/noctalia.toml"]
@@ -115,6 +115,7 @@ QT_STYLE_OVERRIDE = "kvantum"
 # default_extent_fraction = 0.4
 [output.eDP-1]
 scale = 2
+direct_scanout = false                          # Keep compositing so window opacity and blur are drawn
 
 # ────────────────────────────── Workspaces ──────────────────────────────────
 # Choose global workspace behavior. Each output uses dynamic workspaces unless
@@ -189,27 +190,33 @@ outer = "#1A1A1FFF"                           # Outer border ring
 prefer_no_csd = true                            # Prefer Umbriel's border-only decoration
 border_width = 2                                # Inner border width, 0-100 logical pixels
 outer_border_width = 0                          # Optional outer ring, 0-100 logical pixels
-corner_radius = 14                              # Radius of the final decorated edge, 0-100
+corner_radius = 16                              # Radius of the final decorated edge, 0-100
 drag_opacity = 0.75                             # Window opacity during a tiled or floating drag
+opaque_fullscreen = false                       # Fullscreen would otherwise ignore rule opacity
 
 [appearance.blur]
 # Enable blur here, then opt in individual windows or layers with matching rules.
 enabled = true                                  # Enable blur for matching windows and layers
 optimized = true                                # Improve performance when several surfaces use blur
-passes = 3                                      # Blur passes, 0-8
-radius = 3                                      # Blur radius, 0-100
-noise = 0.02                                    # Noise overlay, 0.0-1.0
-brightness = 0.9                                # 0.0-2.0
-contrast = 0.9                                  # 0.0-2.0
-saturation = 1.1                                # 0.0-2.0
+passes = 1                                      # Blur passes, 0-8
+radius = 4                                      # Blur radius, 0-100
+noise = 0.05                                   # Noise overlay, 0.0-1.0
+brightness = 0.92                               # 0.0-2.0
+contrast = 1.05                                 # 0.0-2.0
+saturation = 0.9                                # 0.0-2.0
 
 [appearance.shadow]
 # Window shadows follow the visible shape produced by custom shaders, including
 # during closing animations.
-enabled = true                                  # Draw shadows behind non-fullscreen windows
-softness = 10                                   # Gaussian softness, 0-200; 0 is a hard edge
-offset_x = 2                                    # Horizontal offset, -200 to 200
-offset_y = 2                                    # Vertical offset, -200 to 200
+enabled = true                                # Draw shadows behind non-fullscreen windows
+softness = 5                                   # Gaussian softness, 0-200; 0 is a hard edge
+offset_x = 1                                    # Horizontal offset, -200 to 200
+offset_y = 1                                    # Vertical offset, -200 to 200
+
+# Steady green-to-blue edge on the focused window.
+# shaders/community/border/spectrum
+[effects]
+border = "spectrum"
 
 # ──────────────────────────────── Input ─────────────────────────────────────
 # Configure keyboards, pointers, tablets, cursor behavior, and focus policy.
@@ -365,9 +372,11 @@ follows_mouse = false                           # Focus on motion after scene ch
 "Mod+A" = { action = "overview-toggle", repeat = false }
 
 "Mod+S" = { action = "spawn noctalia msg screenshot-region", repeat = false }
+"Mod+Alt+S" = { action = "spawn noctalia msg screenshot-window", repeat = false }
 "Mod+Ctrl+S" = { action = "spawn noctalia msg screenshot-fullscreen pick", repeat = false }
 "Mod+Shift+S" = { action = "spawn noctalia msg screenshot-annotate", repeat = false}
 # Common keybinds
+"Mod+slash" = { action = "cheatsheet-toggle", repeat = false }
 "Mod+Escape" = "session-quit"
 # Keep one escape binding available when a game or remote desktop client asks
 # Umbriel to pass ordinary compositor shortcuts through.
@@ -544,7 +553,7 @@ bottom = 0
 
 [layout.scrolling]
 # The strip axis is perpendicular to the output's workspace_axis.
-default_extent_fraction = 0.5                   # Initial extent for new columns, 0.1-1.0
+default_extent_fraction = 0.75                   # Initial extent for new columns, 0.1-1.0
 center_underfull_strip = false                   # Center a strip narrower than the viewport
 center_focused = "never"                        # never, always, or on_overflow
 
@@ -563,19 +572,69 @@ new_becomes_master = false                      # New windows take the master sl
 # Documentation: https://docs.noctalia.dev/umbriel/window-rules/
 # ────────────────────────────────────────────────────────────────────────────
 
-# Blur every window. Keep this selectorless rule first so later matching rules
-# can override individual blur settings.
-[[window_rule]]
-blur = true
-blur_optimized = false
+# Frosted glass is opt-in. A later rule turns it on for the listed apps only.
 
-# WeChat's send dialog contains a transparent client-side shadow margin.
-# Do not blur that margin or outline its full surface.
+[[window_rule]]
+match.is_floating = true
+blur = false
+border_width = 1
+corner_radius = 12
+shadow = false
+
+[[window_rule]]
+match.is_dialog = true
+blur = false
+border_width = 1
+corner_radius = 12
+shadow = false
+
+[[window_rule]]
+match.app_id = "^xdg-desktop-portal-gtk$"
+blur = false
+shadow = false
+
+# 0.9 opacity over the cached wallpaper blur. Optimized blur is the gaussian
+# sample of the desktop; turning it off resamples the window itself once the
+# window covers the screen, which reads as no blur.
+[[window_rule]]
+match.app_id = "^firefox$"
+opacity = 0.8
+blur = true
+
+[[window_rule]]
+match.app_id = "^com[.]microsoft[.]VSCode$"
+opacity = 0.8
+blur = true
+
+[[window_rule]]
+match.app_id = "^[Cc]hatGPT$"
+opacity = 0.8
+blur = true
+
+[[window_rule]]
+match.app_id = "^[Cc]ursor$"
+opacity = 0.8
+blur = true
+
 [[window_rule]]
 match.app_id = "^wechat$"
-match.title = "^wechat$"
+opacity = 0.8
+blur = true
+
+# Kitty 自己只淡化背景。这里再设 opacity 会把文字一起变淡。
+[[window_rule]]
+match.app_id = "^kitty$"
+blur = true
+
+# The WeChat forward dialog matches the rule above. Put the frame exception
+# back, and keep this surface opaque.
+[[window_rule]]
+match.app_id = "^wechat$"
+match.title = ["^微信发送给$", "^发送给$", "^wechat$"]
+opacity = 1.0
 blur = false
 border_width = 0
+corner_radius = 0
 shadow = false
 
 # Noctalia settings
@@ -589,6 +648,38 @@ default_floating_size_px = { width = 1020, height = 900 }
 match.app_id = "^dev.noctalia.UmbrielSharePicker$"
 default_floating = true
 default_floating_size_px = { width = 800, height = 600 }
+
+# Common apps open maximized (full column / usable width).
+[[window_rule]]
+match.app_id = "^kitty$"
+default_maximize = true
+
+[[window_rule]]
+match.app_id = "^google-chrome$"
+default_maximize = true
+
+# Separate private process from chrome-in-private.desktop. Omit its pixels
+# from screenshots and recordings; the local window stays visible.
+[[window_rule]]
+match.app_id = "^google-chrome-private$"
+default_maximize = true
+block_capture = true
+
+[[window_rule]]
+match.app_id = "^com[.]microsoft[.]VSCode$"
+default_maximize = true
+
+[[window_rule]]
+match.app_id = "^ai[.]storyteller[.]wordcraft$"
+default_maximize = true
+
+[[window_rule]]
+match.app_id = "^genoffice$"
+default_maximize = true
+
+[[window_rule]]
+match.app_id = "^jetbrains-pycharm"
+default_maximize = true
 
 # Browsers expose no semantic PiP role or global position control.
 [[window_rule]]
@@ -747,87 +838,101 @@ blur_optimized = false
 # reveal.glsl and squash.glsl effects can be used directly or copied for editing.
 # ────────────────────────────────────────────────────────────────────────────
 
+# Two springs, one motion language:
+#   settle  slight overshoot for a single window appearing or leaving
+#   glide   no overshoot for anything that moves the whole view
 [animation]
-enabled = true                                  # Master animation switch
-duration_ms = 250                               # Shared duration, 1-10000 ms
-curve = "easeout"                               # Built-in or registered bezier/spring curve name
+enabled = true
+curve = "glide"
 
-# Animation shown when a window opens.
+# Open: grow from 88% while fading in, with a short settle.
 [animation.windows_in]
 enabled = true
-duration_ms = 150
-curve = "easeout"
-style = "popin"                                 # popin, zoom, slide, fade, or none
-scale = 0.85                                    # Popin start scale, 0.1-1.0
-# shader = "shaders/reveal.glsl"      # Replaces the built-in opening style
+curve = "settle"
+style = "popin"
+scale = 0.88
 
-# Animation shown when a window closes.
+# Close: the same gesture in reverse, a little smaller so it reads as leaving.
 [animation.windows_out]
 enabled = true
-duration_ms = 150
-curve = "easeout"
-style = "fade"                                  # fade or slide
-# shader = "shaders/reveal.glsl"
+curve = "settle"
+style = "popin"
+scale = 0.92
 
-# Animation used for moving and resizing windows, layout changes such as
-# consume and expel, maximize, restore, and visible scratchpad resizing.
+# Moves, reflow, maximize, and restore. No squash: a scrolling layout
+# reflows often, and a squeeze on every move fights the popin.
 [animation.windows_move]
 enabled = true
-duration_ms = 250
-curve = "snappy"
-# shader = "shaders/squash.glsl"      # Subtle compression and settle during move/resize
+curve = "glide"
 
-# Workspace switching
+[animation.windows_resize]
+enabled = true
+curve = "glide"
+
+# Focus changes to window-rule opacity. Same glide as unfocused dim.
+[animation.windows_opacity]
+enabled = true
+curve = "glide"
+
+# Workspace switching stays a slide. A hard wipe would cut the blue frame.
 [animation.workspaces]
 enabled = true
-duration_ms = 250
-curve = "easeout"
+style = "slide"
+curve = "glide"
 
 # Overview opening and closing
 [animation.overview]
 enabled = true
-duration_ms = 250
-curve = "easeout"
-# Movement between workspace previews, including wheel, keyboard, and touchpad
-# navigation. Springs preserve touchpad release momentum; other curves use the
-# overview duration above.
+curve = "glide"
+# Touchpad release keeps its speed only when this curve is a spring.
 workspace_curve = "spring:1,1000"
 
 # Scratchpad show, hide, and backdrop
 [animation.scratchpad]
 enabled = false
-duration_ms = 250
-curve = "easeout"
+curve = "glide"
 dim = 0.5                                       # Backdrop dim amount, 0.0-1.0
 blur = false                                    # Requires appearance.blur.enabled
 
-# Focus border color
+# Focus border eases between the blue accent and the idle gray.
 [animation.border]
-enabled = false
-duration_ms = 250
-curve = "easeout"
+enabled = true
+curve = "settle"
 
-# Unfocused window opacity
+# Modal dialog parent shade stays off. Floating dialogs already drop blur
+# and shadow so their client-side margins stay flush.
+[animation.dialogs]
+enabled = true
+dim = 0.0
+
+# Unfocused windows step back by a tenth. 0 disables; 1 is fully dimmed.
 [animation.dim_unfocused]
-enabled = false
-duration_ms = 250
-curve = "easeout"
-dim = 0.0                                       # 0 disables dimming; maximum is 1.0
+enabled = true
+curve = "glide"
+dim = 0.1
 
-# Layer-shell surface mapping and unmapping
+# Bar, launcher, and OSD. A stiff spring so they don't lag behind the key.
 [animation.layers]
-enabled = false
-duration_ms = 250
-curve = "easeout"
+enabled = true
+curve = "swift"
 
-# Register reusable curves by adding or uncommenting entries below.
+# Pointer drag flexes the window a few millimetres, then stops.
+# Stiffer and shorter than Umbriel's defaults so tiled drags stay precise.
+[animation.windows_drag]
+physics = true
+stiffness = 70.0
+damping = 14.0
+coupling = 220.0
+pointer_response = 0.7
+max_displacement_px = 36.0
+settle_after_pause_s = 0.2
+
 # Documentation: https://docs.noctalia.dev/umbriel/animation/#curves
 
-[animation.beziers]
-myBezier = [0.05, 0.9, 0.1, 1.0]
-
 [animation.springs]
-myBounce = { damping = 0.5, stiffness = 200 }
+settle = { damping = 0.86, stiffness = 380 }    # One soft overshoot, then rest
+glide = { damping = 1.05, stiffness = 260 }     # Reach the target without bouncing
+swift = { damping = 1.0, stiffness = 720 }      # Layers and other short cues
 
 # ─────────────────────── Overview and Hot Corners ───────────────────────────
 # Configure the all-workspaces overview and pointer-triggered corner actions.
@@ -841,7 +946,7 @@ zoom = 0.5                                      # Workspace scale in overview, 0
 scroll_factor_horizontal = 1.0                  # Overview gesture/wheel multiplier, left and right, 0.1-10.0
 scroll_factor_vertical = 1.0                    # Overview gesture/wheel multiplier, up and down, 0.1-10.0
 # Pinned windows stay hidden until overview closes; visible scratchpads are dismissed.
-# background_blur = true                        # Blur the wallpaper behind overview rows
+background_blur = true                          # Same glass as the bar, behind the workspace rows
 # workspace_wallpaper = true                    # Mirror wallpapers inside workspace previews
 # shortcuts = true                              # Show keyboard shortcut badges on windows
 # shortcut_keys = "1234567890"                  # Badge keys in preference order
@@ -851,31 +956,4 @@ enabled = true                                  # Open the overview after restin
 delay_ms = 500                                  # 0 activates immediately; maximum is 10000
 action = "overview-open"                        # Any normal Umbriel action is accepted
 
-[hot_corners.top_right]
-enabled = false
-delay_ms = 500
-action = "overview-close"
 
-[hot_corners.bottom_left]
-enabled = false
-delay_ms = 500
-action = "overview-toggle"
-
-[hot_corners.bottom_right]
-enabled = false
-delay_ms = 500
-action = "spawn notify-send 'Bottom right'"
-
-# ─────────────────────── Security Context Rules ─────────────────────────────
-# Sandboxed clients receive a restricted Wayland global set. Grant extra
-# globals only to a narrowly matched application that genuinely needs them.
-# Documentation: https://docs.noctalia.dev/umbriel/security/#per-application-grants
-# ────────────────────────────────────────────────────────────────────────────
-
-# Grant a sandboxed clipboard manager both data-control protocol variants.
-# Uncomment the complete block and replace the example application ID.
-
-# [[security_context_rule]]
-# match.sandbox_engine = 'org\.flatpak'
-# match.app_id = 'org\.example\.ClipboardManager'
-# allow_globals = ["ext_data_control_manager_v1", "zwlr_data_control_manager_v1"]

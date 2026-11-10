@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch FlClash interface and refresh Fake-IP main route
+
+[Path]
+PathExists=/sys/class/net/FlClash
+Unit=flclash-fakeip-route.service
+
+[Install]
+WantedBy=multi-user.target
