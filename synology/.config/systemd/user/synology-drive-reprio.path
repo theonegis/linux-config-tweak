@@ -1,0 +1,9 @@
+[Unit]
+Description=Watch Synology Drive daemon.pid to apply low priority
+
+[Path]
+PathModified=%h/.SynologyDrive/daemon.pid
+Unit=synology-drive-reprio.service
+
+[Install]
+WantedBy=default.target

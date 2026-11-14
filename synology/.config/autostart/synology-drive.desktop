@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Synology Drive Client
+Comment=Synology Drive Client
+Exec=nice -n 19 ionice -c3 env FONTCONFIG_FILE=/home/tanzhenyu/.config/fontconfig/synology-drive.conf QT_SCALE_FACTOR=2 QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_SCREEN_SCALE_FACTORS=2 synology-drive start
+Icon=synology-drive
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;
+X-GNOME-Autostart-enabled=true
+StartupWMClass=cloud-drive-ui

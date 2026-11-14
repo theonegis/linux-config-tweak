@@ -1,0 +1,7 @@
+[Unit]
+Description=Set Synology Drive to low CPU/IO priority (oneshot)
+After=default.target
+
+[Service]
+Type=oneshot
+ExecStart=%h/.local/bin/synology-drive-reprio

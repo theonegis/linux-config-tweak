@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Apply low CPU/IO priority to Synology Drive processes (oneshot).
+set -euo pipefail
+
+NICE_LEVEL=19
+IO_CLASS=3
+TARGETS='cloud-drive-daemon|cloud-drive-connect|cloud-drive-auto-updater|cloud-drive-cleaner'
+
+# Prefer PIDs from Synology pid files; fall back to pgrep.
+pids=""
+for f in "$HOME/.SynologyDrive/daemon.pid" "$HOME/.SynologyDrive/cloud-connect.pid"; do
+  if [[ -f "$f" ]]; then
+    p=$(tr -d ' \n' <"$f" || true)
+    if [[ -n "${p}" && -d "/proc/${p}" ]]; then
+      pids+="${p} "
+    fi
+  fi
+done
+pids+=$(pgrep -f "$TARGETS" || true)
+
+[[ -z "${pids// /}" ]] && exit 0
+
+for p in ${pids}; do
+  renice -n "${NICE_LEVEL}" -p "${p}" >/dev/null 2>&1 || true
+  ionice -c "${IO_CLASS}" -p "${p}" >/dev/null 2>&1 || true
+done
