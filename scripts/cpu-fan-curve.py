@@ -1,25 +1,26 @@
 #!/usr/bin/env python3
-"""Drive the two ACPI fans from the hottest CPU temperature.
+"""Drive MateBook ACPI fans (TFN1/TFN2) from the hottest CPU temperature.
 
-This process is what chooses the fan speed. Once a second it reads coretemp,
-maps the hottest sensor through the curve below, and writes an integer to
-each fan's cur_state file:
+MateBook only. Do not enable this on MacBook Pro (use t2fanrd + /etc/t2fand.conf)
+or Surface until that machine exposes TFN1/TFN2. See docs/fan-control.md.
+
+Once a second this process reads coretemp, maps the hottest sensor through
+the curve below, and writes an integer to each fan's cur_state file:
 
   /sys/class/thermal/cooling_deviceN/cur_state
 
-cur_state is not a command. On this machine the kernel acpi-fan driver
+cur_state is not a command. On MateBook the kernel acpi-fan driver
 multiplies it by 2 and passes that percentage to the ACPI _FSL method
 (0 → 0%, 50 → 100%). The embedded controller (H_EC, TFN1/TFN2) then
-changes the fans. On this Huawei MRG-WXX the firmware accepts the write and then ignores
-it: cur_state reads back as 0 and the fan RPM does not move. The
-embedded controller keeps its own curve. The systemd unit is installed
-but disabled for that reason.
+changes the fans. On some Huawei MRG-WXX units the firmware accepts the
+write and then ignores it: cur_state reads back as 0 and the fan RPM does
+not move. The embedded controller keeps its own curve.
 
 Curve, using the hottest package or core temperature:
 
-  ≤75°C             0% (stopped)
-  (75°C, 95°C)      exponential, k=3, from the 25% start step up to 100%
-  ≥95°C             100%
+  ≤75°C              0% (stopped)
+  (75°C, 100°C)      exponential, k=3, from the 25% start step up to 100%
+  ≥100°C             100%
 
 25% is the first real step in the fan performance table (about 3200 RPM).
 Values between 1% and 24% are not a stable speed, so the curve starts at
@@ -40,7 +41,7 @@ import time
 from pathlib import Path
 
 START_C = 75.0
-FULL_C = 95.0
+FULL_C = 100.0
 STOP_C = 73.0
 MIN_SPIN_PERCENT = 25.0
 CURVE_K = 3.0

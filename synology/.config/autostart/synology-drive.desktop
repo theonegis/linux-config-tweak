@@ -1,7 +1,8 @@
 [Desktop Entry]
 Name=Synology Drive Client
 Comment=Synology Drive Client
-Exec=nice -n 19 ionice -c3 env FONTCONFIG_FILE=/home/tanzhenyu/.config/fontconfig/synology-drive.conf QT_SCALE_FACTOR=2 QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_SCREEN_SCALE_FACTORS=2 synology-drive start
+Hidden=true
+Exec=nice -n 19 ionice -c 3 env FONTCONFIG_FILE=/home/tanzhenyu/.config/fontconfig/synology-drive.conf QT_SCALE_FACTOR=2 QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_SCREEN_SCALE_FACTORS=2 synology-drive start
 Icon=synology-drive
 Terminal=false
 Type=Application

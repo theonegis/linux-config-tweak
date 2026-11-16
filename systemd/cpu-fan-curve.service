@@ -1,5 +1,5 @@
 [Unit]
-Description=CPU fan curve (off at 75C, exponential to full at 95C)
+Description=MateBook TFN fan curve (off at 75C, exponential to full at 100C)
 After=sysinit.target
 Before=shutdown.target
 

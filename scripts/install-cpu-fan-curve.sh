@@ -1,5 +1,7 @@
 #!/bin/sh
-# Install the CPU fan curve as a root systemd service.
+# Install the MateBook TFN1/TFN2 CPU fan curve as a root systemd service.
+# Do not run this on MacBook Pro (t2fanrd) or other machines without TFN*.
+# See docs/fan-control.md.
 set -eu
 
 if [ "$(id -u)" -ne 0 ]; then

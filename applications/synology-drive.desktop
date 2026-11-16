@@ -1,0 +1,12 @@
+[Desktop Entry]
+Name=Synology Drive Client
+Comment=Synology Drive Client
+# Qt5/X11 only. Umbriel xwayland_native_resolution gives apps the physical
+# pixel grid, so Qt ignores compositor fractional scale and needs QT_SCALE_FACTOR.
+# Match laptop panel (eDP-1 Scale 1.75). Use 1.5 on DP-1-only sessions.
+Exec=nice -n 19 ionice -c 3 env QT_AUTO_SCREEN_SCALE_FACTOR=0 QT_SCALE_FACTOR=1.75 /usr/bin/synology-drive start
+Icon=synology-drive
+Terminal=false
+Type=Application
+Categories=Network;FileTransfer;
+StartupNotify=false

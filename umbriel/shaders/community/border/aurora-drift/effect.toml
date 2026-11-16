@@ -1,0 +1,9 @@
+# Soft blue → green → purple halo that slowly drifts around the focused window.
+# Include this file, then select: [effects] border = "aurora-drift"
+[effects.preset.aurora-drift]
+kind = "border"
+shader = "shader.glsl"
+palette = false
+padding = 8
+speed = 0.35
+animated = true

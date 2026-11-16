@@ -25,3 +25,22 @@ Office软件使用GenOffice，IDE有了AI之后使用的也不是很多了
 使用`input-remapper`把不常用的Caps按键映射为macOS的行为（因为我的主力电脑是macOS，这样可以保持行为的一致性）
 
 使用`input-remapper`把不常用的Caps按键映射为鼠标左键，这样按住Caps就可以做选中，拖动了，比默认的双击拖动好用一些（目前没有在这样使用）
+
+## 风扇 / 温度控制（多机注意）
+
+三台 Fedora 笔记本硬件不同，风扇控制不能共用一套脚本：
+
+- **Huawei MateBook**：ACPI `TFN1`/`TFN2` → `scripts/cpu-fan-curve.py`
+- **MacBook Pro（T2）**：`applesmc` + **t2fanrd** → `t2fanrd/t2fand.conf`（安装为 `/etc/t2fand.conf`）
+- **Surface Laptop**：先探测本机冷却设备，再选方案（仓库暂无通用脚本）
+
+改曲线前先确认机型和现有守护进程。详细说明、探测命令与常见误判见 [docs/fan-control.md](docs/fan-control.md)。
+
+## MacBook Pro 休眠与 Touch Bar
+
+休眠唤醒后 Touch Bar 变黑，是因为 `tiny-dfr` 被停掉后没有自动拉起。修复脚本与安装方式见 [docs/mbp-sleep.md](docs/mbp-sleep.md)：
+
+```bash
+sudo ./scripts/install-mbp-display-wake.sh
+```
+

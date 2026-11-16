@@ -23,7 +23,7 @@
 # ────────────────────────────────────────────────────────────────────────────
 
 [include]
-files = ["shaders/community/border/spectrum/effect.toml"]
+files = ["shaders/community/border/aurora-drift/effect.toml"]
 
 [include.optional]
 files = []                                      # Example: ["~/.config/umbriel/noctalia.toml"]
@@ -213,10 +213,10 @@ softness = 5                                   # Gaussian softness, 0-200; 0 is 
 offset_x = 1                                    # Horizontal offset, -200 to 200
 offset_y = 1                                    # Vertical offset, -200 to 200
 
-# Steady green-to-blue edge on the focused window.
-# shaders/community/border/spectrum
+# Soft blue → green → purple edge that slowly drifts on the focused window.
+# shaders/community/border/aurora-drift
 [effects]
-border = "spectrum"
+border = "aurora-drift"
 
 # ──────────────────────────────── Input ─────────────────────────────────────
 # Configure keyboards, pointers, tablets, cursor behavior, and focus policy.
