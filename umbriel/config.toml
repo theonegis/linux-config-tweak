@@ -273,10 +273,11 @@ hide_when_typing = false                        # Keep visible while typing
 hide_timeout_ms = 0                             # Idle hide timeout, 0 disables; maximum is 3600000
 
 [input.focus]
-follows_mouse = false                           # Focus on motion after scene changes, client fullscreen exits, and closes
+follows_mouse = "off"                           # "off", "sloppy", or "always"; always also refocuses after layout/workspace changes
 # Refuse hover focus when revealing a window would scroll farther than this
 # many viewport widths. Omit the key for no limit.
 # follows_mouse_max_scroll = 0.5
+
 
 # Exact, case-sensitive per-device overrides inherit their device-kind table.
 # Find names with `libinput list-devices`. Uncomment each complete block needed.
@@ -525,6 +526,7 @@ follows_mouse = false                           # Focus on motion after scene ch
 "XF86AudioRaiseVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
 "XF86AudioLowerVolume" = "spawn wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
 "XF86AudioMute" = "spawn wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"
+"XF86Search" = "spawn noctalia msg panel-toggle launcher"
 "XF86AudioPlay" = "spawn playerctl play-pause"
 "XF86AudioNext" = "spawn playerctl next"
 "XF86AudioPrev" = "spawn playerctl previous"

@@ -1,0 +1,50 @@
+# User override for tiny-dfr (merged over /usr/share/tiny-dfr/config.toml)
+# Media controls by default; hold Fn for F1–F12 only.
+
+MediaLayerDefault = true
+ShowButtonOutlines = true
+EnablePixelShift = false
+FontTemplate = "OPPO Sans:bold"
+AdaptiveBrightness = true
+ActiveBrightness = 160
+DoublePressSwitchLayers = 250
+
+# Default control strip
+MediaLayerKeys = [
+    # Focus previous/next window in current workspace (Mod+Left / Mod+Right)
+    { Text = "←", Action = ["LeftMeta", "Left"]  },
+    { Text = "→", Action = ["LeftMeta", "Right"] },
+    { Stretch = 1 },
+    { Icon = "brightness_low",  Action = "BrightnessDown" },
+    { Icon = "brightness_high", Action = "BrightnessUp"   },
+    { Stretch = 1 },
+    { Icon = "fast_rewind",     Action = "PreviousSong"   },
+    { Icon = "play_pause",      Action = "PlayPause", Stretch = 2 },
+    { Icon = "fast_forward",    Action = "NextSong"       },
+    { Stretch = 1 },
+    { Icon = "volume_off",      Action = "Mute"           },
+    { Icon = "volume_down",     Action = "VolumeDown"     },
+    { Icon = "volume_up",       Action = "VolumeUp"       },
+    { Stretch = 1 },
+    # Overview, search, input method, and screenshot actions grouped at the right edge
+    { Icon = "view-grid", Theme = "breeze-dark", Action = ["LeftMeta", "A"] },
+    { Icon = "search", Action = "Search" },
+    { Icon = "input-keyboard-macos", Action = ["LeftCtrl", "Space"] },
+    { Icon = "shot-camera", Action = ["LeftMeta", "S"] },
+]
+
+# Hold Fn: F1–F12 only
+PrimaryLayerKeys = [
+    { Text = "F1",  Action = "F1"  },
+    { Text = "F2",  Action = "F2"  },
+    { Text = "F3",  Action = "F3"  },
+    { Text = "F4",  Action = "F4"  },
+    { Text = "F5",  Action = "F5"  },
+    { Text = "F6",  Action = "F6"  },
+    { Text = "F7",  Action = "F7"  },
+    { Text = "F8",  Action = "F8"  },
+    { Text = "F9",  Action = "F9"  },
+    { Text = "F10", Action = "F10" },
+    { Text = "F11", Action = "F11" },
+    { Text = "F12", Action = "F12" },
+]
