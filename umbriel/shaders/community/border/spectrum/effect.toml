@@ -1,0 +1,6 @@
+[effects.preset.spectrum]
+kind = "border"
+shader = "shader.glsl"
+palette = false
+animated = false
+padding = 14
