@@ -1,6 +1,7 @@
 {
     "version": "2.2.1",
     "autoload": {
-        "Microsoft Surface 045E:09AE Keyboard": "macOS Caps"
+        "Microsoft Surface 045E:09AE Keyboard": "macOS Caps",
+        "Apple Inc. Apple Internal Keyboard / Trackpad": "macOS Caps"
     }
 }

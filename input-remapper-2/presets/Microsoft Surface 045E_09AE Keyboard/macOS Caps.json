@@ -1,0 +1,13 @@
+[
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 58
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "if_tap(modify(Control_L, key(space)), key(Caps_Lock), timeout=400)",
+        "name": "Caps tap IM / hold CapsLock"
+    }
+]

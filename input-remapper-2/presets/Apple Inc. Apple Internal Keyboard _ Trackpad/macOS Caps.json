@@ -1,0 +1,14 @@
+[
+    {
+        "input_combination": [
+            {
+                "type": 1,
+                "code": 58,
+                "origin_hash": "bc9e1b8c8213dcb81baaa0ce0c0de60e"
+            }
+        ],
+        "target_uinput": "keyboard",
+        "output_symbol": "if_tap(modify(Control_L, key(space)), key(Caps_Lock), timeout=400)",
+        "name": "Caps tap IM / hold CapsLock"
+    }
+]
