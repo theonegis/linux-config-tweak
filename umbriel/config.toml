@@ -576,17 +576,23 @@ new_becomes_master = false                      # New windows take the master sl
 
 # Frosted glass is opt-in. A later rule turns it on for the listed apps only.
 
+# Client-drawn dialog shadows can occupy transparent space inside the surface.
+# Keep compositor borders and border effects off for floating windows and dialogs.
 [[window_rule]]
 match.is_floating = true
 blur = false
-border_width = 1
+border_width = 0
+outer_border_width = 0
+border_effect = "off"
 corner_radius = 16
 shadow = false
 
 [[window_rule]]
 match.is_dialog = true
 blur = false
-border_width = 1
+border_width = 0
+outer_border_width = 0
+border_effect = "off"
 corner_radius = 16
 shadow = false
 
